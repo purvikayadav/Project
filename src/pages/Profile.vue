@@ -74,36 +74,46 @@
   
   // Function to update the user password
   const updateProfile = async () => {
-    if (!form.value.password) {
-      alert("Please enter a new password.");
+  if (!form.value.password) {
+    alert("Please enter a new password.");
+    return;
+  }
+
+  try {
+    // Retrieve the user ID (Assuming it's stored in localStorage after login)
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    const userId = storedUser?.id; // Ensure 'id' exists
+
+    if (!userId) {
+      alert("User ID not found. Please log in again.");
       return;
     }
-  
-    try {
-      // Send a POST request to update the password for the same email
-      const response = await axios.put("https://api-3l0u.onrender.com/users", {
-        email: form.value.email,
-        password: form.value.password
-      });
-  
-      console.log("Password Updated:", response.data);
-  
-      // Store updated email in localStorage
-      localStorage.setItem("user", JSON.stringify({ email: form.value.email }));
-  
-      // Reset the form fields and validation
-      form.value.password = "";  // Clear the password field
-      formValid.value = true;  // Reset form validation
-  
-      alert("Password updated successfully!");
-  
-      // Redirect to dashboard
-      router.push("/dashboard");
-    } catch (error) {
-      console.error("Error updating password:", error);
-    }
-  };
-  
+
+    // Send a PUT request to update the password for the same email
+    const response = await axios.put(`https://api-3l0u.onrender.com/users/${userId}`, {
+      email: form.value.email,
+      password: form.value.password
+    });
+
+    console.log("Password Updated:", response.data);
+
+    // Store updated email in localStorage
+    localStorage.setItem("user", JSON.stringify({ ...storedUser, email: form.value.email }));
+
+    // Reset the form fields and validation
+    form.value.password = "";  // Clear the password field
+    formValid.value = true;  // Reset form validation
+
+    alert("Password updated successfully!");
+
+    // Redirect to dashboard
+    router.push("/dashboard");
+  } catch (error) {
+    console.error("Error updating password:", error.response ? error.response.data : error.message);
+    alert("Failed to update password. Please try again.");
+  }
+};
+
   // Redirect to dashboard
   const goBack = () => {
     router.push("/dashboard");
