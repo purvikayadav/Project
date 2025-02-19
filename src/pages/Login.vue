@@ -88,7 +88,7 @@ export default {
       if (this.$refs.form.validate()) {
         try {
           // Call the GET API to validate the credentials
-          const response = await axios.get("https://api-3l0u.onrender.com/", {
+          const response = await axios.get("https://api-3l0u.onrender.com/users", {
             params: {
               email: this.form.email,
             },

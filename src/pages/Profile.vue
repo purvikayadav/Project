@@ -81,7 +81,7 @@
   
     try {
       // Send a POST request to update the password for the same email
-      const response = await axios.put("https://api-3l0u.onrender.com/", {
+      const response = await axios.put("https://api-3l0u.onrender.com/users", {
         email: form.value.email,
         password: form.value.password
       });
