@@ -82,7 +82,7 @@ const signUp = async () => {
     };
 
     // Send data to backend
-    const response = await axios.post("http://localhost:3000/users", formData);
+    const response = await axios.post("https://api-3l0u.onrender.com/", formData);
     console.log("API Response:", response.data);
 
     // Store user details in sessionStorage
