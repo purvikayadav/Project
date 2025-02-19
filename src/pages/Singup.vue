@@ -65,7 +65,8 @@ const rules = {
 };
 
 const signUp = async () => {
-  const { valid } = await form.value.validate(); // Validate form correctly
+
+    const { valid } = await form.value.validate(); // Validate form correctly
 
   if (!valid) {
     console.error("Form validation failed");
